@@ -8,28 +8,42 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+
+/**
+ * Controller between EventListActivity and activity_event_details.
+ * Gets intent from EventListActivity and passes data to activity_event_details
+ * @author Travis Morrissey
+ */
 public class EventDetailsActivity extends AppCompatActivity {
 
-    private ImageView eventImageView;
     private Context context = (Context) this;
 
+    /**
+     * Perform initialization of all fragments and loaders.
+     * @param savedInstanceState last saved instance state
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-
+        TextView eventTitleTextView = (TextView) findViewById(R.id.eventTitleTextView);
+        TextView eventDetailsTextView = (TextView) findViewById(R.id.eventDetailsTextView);
+        ImageView eventImageView = (ImageView) findViewById(R.id.eventImageView);
 
         Intent detailsIntent = getIntent();
         String title = detailsIntent.getStringExtra("Title");
         String details = detailsIntent.getStringExtra("Details");
         String imageFileName = title.replace(" ", "") + ".jpeg";
 
-        eventImageView = (ImageView) findViewById(R.id.eventImageView);
+        eventTitleTextView.setText(title);
+        eventDetailsTextView.setText(details);
+
         AssetManager am = context.getAssets();
 
         try {
@@ -41,6 +55,5 @@ public class EventDetailsActivity extends AppCompatActivity {
             Log.e("OC Music Events", "Cannot load image: " + imageFileName + e);
 
         }
-
     }
 }
